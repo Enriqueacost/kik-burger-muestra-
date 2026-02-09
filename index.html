@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#121212" />
+    <title>Kiko Burger - Pedidos por WhatsApp</title>
+    <meta name="description" content="Los mejores lomitos de Asunción. Pedí rápido por WhatsApp." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+  </head>
+  <body>
+    <main>
+      <!-- ====== HERO ====== -->
+      <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__radial"></div>
+        <div class="hero__content">
+          <img src="/logo.png" alt="Kiko Burger - Hamburguesas & más" class="hero__logo" width="64" height="64" />
+          <h1 class="visually-hidden">Kiko Burger</h1>
+          <p class="hero__subtitle">
+            Los mejores lomitos de Asunción.<br />
+            Pedí rápido por WhatsApp.
+          </p>
+          <a href="#menu" class="hero__cta">
+            Ver menú
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </a>
+        </div>
+        <div class="hero__fade"></div>
+      </section>
+
+      <!-- ====== MENÚ ====== -->
+      <section id="menu" class="menu">
+        <div class="menu__inner">
+          <div class="menu__header">
+            <span class="section-label">Nuestro</span>
+            <h2 class="section-title">Menú</h2>
+          </div>
+          <div class="menu__grid" id="menu-grid">
+            <!-- JS renderiza las tarjetas -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== CARRITO ====== -->
+      <section id="cart-section" class="cart" style="display: none;">
+        <div class="cart__inner">
+          <div class="cart__header">
+            <span class="section-label">Tu</span>
+            <h2 class="section-title">Pedido</h2>
+          </div>
+          <div class="cart__box">
+            <div id="cart-items"></div>
+            <div class="cart__footer">
+              <div class="cart__total-row">
+                <span class="cart__total-label">Total</span>
+                <span class="cart__total-value" id="cart-total">0 &#8370;</span>
+              </div>
+              <div class="cart__actions">
+                <button type="button" class="btn-clear" id="btn-clear-cart">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  Vaciar carrito
+                </button>
+                <a href="#" class="btn-whatsapp" id="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                  Pedir por WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== UBICACIÓN ====== -->
+      <section class="location" id="ubicacion">
+        <div class="location__inner">
+          <div class="location__header">
+            <span class="section-label">Dónde estamos</span>
+            <h2 class="section-title">Ubicación</h2>
+          </div>
+          <div class="location__box">
+            <div class="location__address">
+              <div class="location__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="location__text">
+                <strong>Av. Ejemplo 123, Asunción</strong>
+                <span>Paraguay</span>
+              </div>
+            </div>
+            <div class="location__map">
+              <iframe
+                title="Ubicación de Kiko Burger"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.559736683688!2d-57.63591308544486!3d-25.28265838382888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x945da8b2e0b0e8a5%3A0x5d6e7f8a9b0c1d2e!2sAsunci%C3%B3n%2C%20Paraguay!5e0!3m2!1ses!2s!4v1234567890"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__hours">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Horario de atención: Lunes a Domingo 11:00 - 23:00</span>
+        </div>
+        <p class="site-footer__copy">&copy; Kiko Burger. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
