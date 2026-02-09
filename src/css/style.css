@@ -192,6 +192,52 @@ h1, h2, h3 {
   margin-bottom: 3rem;
 }
 
+.menu__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.menu__section {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--bg-card);
+  overflow: hidden;
+}
+
+.menu__section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(24, 24, 27, 0.9);
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+}
+
+.menu__section-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.menu__section-chevron svg {
+  transition: transform 0.2s ease;
+}
+
+.menu__section--collapsed .menu__section-chevron svg {
+  transform: rotate(-90deg);
+}
+
+.menu__section-body {
+  padding: 1.25rem;
+}
+
+.menu__section--collapsed .menu__section-body {
+  display: none;
+}
+
 .menu__grid {
   display: grid;
   gap: 1.5rem;
