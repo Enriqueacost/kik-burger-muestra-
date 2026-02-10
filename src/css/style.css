@@ -313,6 +313,12 @@ h1, h2, h3 {
   justify-content: space-between;
 }
 
+.menu-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .menu-card__price {
   font-size: 1.25rem;
   font-weight: 700;
@@ -350,6 +356,23 @@ h1, h2, h3 {
 .btn-add svg {
   width: 1rem;
   height: 1rem;
+}
+
+.menu-card__qty {
+  min-width: 2.25rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.menu-card__qty--active {
+  border-color: rgba(220, 38, 38, 0.7);
+  background-color: var(--red-subtle);
+  color: #fecaca;
 }
 
 /* ========================================
@@ -452,6 +475,25 @@ h1, h2, h3 {
   width: 7rem;
   text-align: right;
   font-weight: 700;
+}
+
+.cart-empty {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item__subtotal {
+    width: 100%;
+    text-align: right;
+  }
 }
 
 /* Cart Footer */

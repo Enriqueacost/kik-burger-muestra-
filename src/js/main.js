@@ -19,6 +19,7 @@ const menuSections = document.getElementById('menu-sections');
 const cartSection = document.getElementById('cart-section');
 const cartItems = document.getElementById('cart-items');
 const cartTotalEl = document.getElementById('cart-total');
+const cartFooter = document.querySelector('.cart__footer');
 const btnClearCart = document.getElementById('btn-clear-cart');
 const btnWhatsapp = document.getElementById('btn-whatsapp');
 
@@ -44,6 +45,9 @@ const CATEGORIAS = [
   { id: 'papas', titulo: 'Papas fritas' },
 ];
 
+// Estado de apertura/cierre de cada sección del menú
+const estadoSecciones = new Map();
+
 function formatearPrecio(n) {
   return n.toLocaleString('es-PY') + ' ₲';
 }
@@ -52,6 +56,8 @@ function renderMenu() {
   const seccionesHtml = CATEGORIAS.map((cat) => {
     const items = PRODUCTOS.filter((p) => p.categoria === cat.id);
     if (!items.length) return '';
+
+    const abierta = estadoSecciones.get(cat.id) ?? false;
 
     const cards = items
       .map(
@@ -65,9 +71,12 @@ function renderMenu() {
           </div>
           <div class="menu-card__footer">
             <span class="menu-card__price">${p.precio.toLocaleString('es-PY')}<span>₲</span></span>
-            <button type="button" class="btn-add" data-add="${p.id}">
-              ${icons.plus} Agregar
-            </button>
+            <div class="menu-card__actions">
+              <button type="button" class="btn-add" data-add="${p.id}">
+                ${icons.plus} Agregar
+              </button>
+              <span class="menu-card__qty" data-id="${p.id}" aria-hidden="true"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -76,8 +85,8 @@ function renderMenu() {
       .join('');
 
     return `
-      <section class="menu__section" data-section="${cat.id}">
-        <button type="button" class="menu__section-header" aria-expanded="true">
+      <section class="menu__section${abierta ? '' : ' menu__section--collapsed'}" data-section="${cat.id}">
+        <button type="button" class="menu__section-header" aria-expanded="${abierta ? 'true' : 'false'}">
           <span class="menu__section-title">${cat.titulo}</span>
           <span class="menu__section-chevron" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -102,6 +111,7 @@ function renderMenu() {
       if (producto) {
         agregarAlCarrito(producto);
         renderCart();
+        actualizarCantidadesMenu();
         Toast.fire({
           icon: 'success',
           title: `${producto.nombre} agregado al pedido`,
@@ -113,10 +123,41 @@ function renderMenu() {
   menuSections.querySelectorAll('.menu__section-header').forEach((header) => {
     header.addEventListener('click', () => {
       const section = header.closest('.menu__section');
+      if (!section) return;
+      const id = section.dataset.section;
       const isExpanded = header.getAttribute('aria-expanded') === 'true';
-      header.setAttribute('aria-expanded', String(!isExpanded));
-      section?.classList.toggle('menu__section--collapsed', isExpanded);
+      const next = !isExpanded;
+
+      header.setAttribute('aria-expanded', String(next));
+      section.classList.toggle('menu__section--collapsed', !next);
+
+      if (id) {
+        estadoSecciones.set(id, next);
+      }
     });
+  });
+
+  // Sincronizar cantidades con el carrito (por si hay items en localStorage)
+  actualizarCantidadesMenu();
+}
+
+function actualizarCantidadesMenu() {
+  const carrito = getCarrito();
+  const labels = document.querySelectorAll('.menu-card__qty[data-id]');
+
+  labels.forEach((label) => {
+    const id = label.getAttribute('data-id');
+    const item = carrito.find((i) => i.id === id);
+
+    if (item && item.cantidad > 0) {
+      label.textContent = `x${item.cantidad}`;
+      label.classList.add('menu-card__qty--active');
+      label.setAttribute('aria-hidden', 'false');
+    } else {
+      label.textContent = '';
+      label.classList.remove('menu-card__qty--active');
+      label.setAttribute('aria-hidden', 'true');
+    }
   });
 }
 
@@ -124,7 +165,12 @@ function renderCart() {
   const carrito = getCarrito();
 
   if (carrito.length === 0) {
-    cartSection.style.display = 'none';
+    cartSection.style.display = 'block';
+    cartItems.innerHTML = '<p class="cart-empty">Tu carrito está vacío.</p>';
+    cartTotalEl.textContent = formatearPrecio(0);
+    if (cartFooter) {
+      cartFooter.style.display = 'none';
+    }
     btnWhatsapp.href = '#';
     return;
   }
@@ -154,12 +200,19 @@ function renderCart() {
   cartTotalEl.textContent = formatearPrecio(total);
   btnWhatsapp.href = getWhatsAppUrl(generarMensajePedido(carrito, total));
 
+  if (cartFooter) {
+    cartFooter.style.display = 'block';
+  }
+
   cartItems.querySelectorAll('.btn-qty').forEach((btn) => {
     btn.addEventListener('click', () => {
       cambiarCantidad(btn.dataset.qty, parseInt(btn.dataset.delta, 10));
       renderCart();
     });
   });
+
+  // Actualizar cantidades visibles en el menú sin cerrar secciones
+  actualizarCantidadesMenu();
 }
 
 function init() {
